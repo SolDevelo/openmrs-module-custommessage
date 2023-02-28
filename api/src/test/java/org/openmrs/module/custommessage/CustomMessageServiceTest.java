@@ -54,7 +54,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return null if there is no object with given id", method = "getCustomMessage(Integer)")
-	public void getCustomMessage_shouldReturnNullIfThereIsNoObjectWithGivenId() {	
+	public void getCustomMessage_shouldReturnNullIfThereIsNoObjectWithGivenId() {
 		assertNull(customMessageService.getCustomMessage(9999));
 	}
 	
@@ -63,7 +63,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return custom message by id", method = "getCustomMessage(Integer)")
-	public void getCustomMessage_shouldReturnCustomMessageById() {	
+	public void getCustomMessage_shouldReturnCustomMessageById() {
 		CustomMessage customMessage = customMessageService.getCustomMessage(1);
 		assertNotNull(customMessage);
 	}
@@ -73,7 +73,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return null if no object found with given uuid", method = "getCustomMessageByUuid(String)")
-	public void getCustomMessageByUuid_shouldReturnNullIfNoObjectFoundWithGivenUuid() {	
+	public void getCustomMessageByUuid_shouldReturnNullIfNoObjectFoundWithGivenUuid() {
 		assertNull(customMessageService.getCustomMessageByUuid("invalid uuid"));
 	}
 	
@@ -82,7 +82,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return custom message by uuid", method = "getCustomMessageByUuid(String)")
-	public void getCustomMessageByUuid_shouldReturnCustomMessageByUuid() {	
+	public void getCustomMessageByUuid_shouldReturnCustomMessageByUuid() {
 		assertNotNull(customMessageService.getCustomMessageByUuid("a2e25607-d0c4-4e44-8be6-31e1ac7e100d"));
 	}
 	
@@ -91,7 +91,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should get all custom messages", method = "getAllCustomMessages()")
-	public void getAllCustomMessages_shouldGetAllCustomMessages() {	
+	public void getAllCustomMessages_shouldGetAllCustomMessages() {
 		List<CustomMessage> actual = customMessageService.getAllCustomMessages();
 		assertNotNull(actual);
 		assertEquals(19, actual.size());
@@ -102,7 +102,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return empty list if no message found", method = "getCustomMessagesForCode(String)")
-	public void getCustomMessagesForCode_shouldReturnEmptyListIfNoMessageFound() {	
+	public void getCustomMessagesForCode_shouldReturnEmptyListIfNoMessageFound() {
 		List<CustomMessage> actual = customMessageService.getCustomMessagesForCode("wrong.code");
 		assertNotNull(actual);
 		assertEquals(0, actual.size());
@@ -113,7 +113,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return custom messages for code", method = "getCustomMessagesForCode(String)")
-	public void getCustomMessagesForCode_shouldReturnCustomMessagesForCode() {	
+	public void getCustomMessagesForCode_shouldReturnCustomMessagesForCode() {
 		List<CustomMessage> actual = customMessageService.getCustomMessagesForCode("test.code");
 		assertNotNull(actual);
 		assertEquals(6, actual.size());
@@ -124,8 +124,9 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return null if no message found", method = "getCustomMessagesForCodeAndLocale(String, java.util.Locale)")
-	public void getCustomMessagesForCodeAndLocale_shouldReturnNullIfNoMessageFound() {	
-		CustomMessage actual = customMessageService.getCustomMessagesForCodeAndLocale("wrong.test.code", LocaleUtility.fromSpecification("fr"));
+	public void getCustomMessagesForCodeAndLocale_shouldReturnNullIfNoMessageFound() {
+		CustomMessage actual = customMessageService.getCustomMessagesForCodeAndLocale("wrong.test.code",
+		    LocaleUtility.fromSpecification("fr"));
 		assertNull(actual);
 	}
 	
@@ -134,8 +135,9 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return custom message for code and locale", method = "getCustomMessagesForCodeAndLocale(String, java.util.Locale)")
-	public void getCustomMessagesForCodeAndLocale_shouldReturnCustomMessagesForCodeAndLocale() {	
-		CustomMessage actual = customMessageService.getCustomMessagesForCodeAndLocale("test.code", LocaleUtility.fromSpecification("fr"));
+	public void getCustomMessagesForCodeAndLocale_shouldReturnCustomMessagesForCodeAndLocale() {
+		CustomMessage actual = customMessageService.getCustomMessagesForCodeAndLocale("test.code",
+		    LocaleUtility.fromSpecification("fr"));
 		assertNotNull(actual);
 	}
 	
@@ -144,7 +146,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should create a new custom message in database", method = "saveCustomMessage(CustomMessage)")
-	public void saveCustomMessage_shouldCreateNewCustomMessageInDatabase() {	
+	public void saveCustomMessage_shouldCreateNewCustomMessageInDatabase() {
 		int beforeSize = customMessageService.getAllCustomMessages().size();
 		CustomMessage customMessage = new CustomMessage();
 		customMessage.setCode("new.code");
@@ -160,7 +162,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should update existing custom message in database", method = "saveCustomMessage(CustomMessage)")
-	public void saveCustomMessage_shouldUpdateExistingCustomMessageInDatabase() {	
+	public void saveCustomMessage_shouldUpdateExistingCustomMessageInDatabase() {
 		CustomMessage customMessage = customMessageService.getCustomMessage(1);
 		String beforeMessage = customMessage.getMessage();
 		String actualMessage = "test message";
@@ -175,9 +177,9 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	/**
 	 * @see CustomMessageService#deleteCustomMessage(CustomMessage)
 	 */
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	@Verifies(value = "should fail if custom message is null", method = "deleteCustomMessage(CustomMessage)")
-	public void deleteCustomMessage_shouldFailIfCustomMessageIsNull() {	
+	public void deleteCustomMessage_shouldFailIfCustomMessageIsNull() {
 		customMessageService.deleteCustomMessage(null);
 	}
 	
@@ -186,7 +188,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should delete custom message", method = "deleteCustomMessage(CustomMessage)")
-	public void deleteCustomMessage_shouldDeleteCustomMessage() {	
+	public void deleteCustomMessage_shouldDeleteCustomMessage() {
 		int beforeSize = customMessageService.getAllCustomMessages().size();
 		CustomMessage customMessage = customMessageService.getCustomMessage(1);
 		assertNotNull(customMessage);
@@ -197,7 +199,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	/**
 	 * @see CustomMessageUtil#resolveLocationForCode(String)
 	 */
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	@Verifies(value = "should fail if message code is blank", method = "resolveLocationForCode(String)")
 	public void resolveLocationForCode_shouldFailIfMessageCodeIsBlank() {
 		customMessageService.resolveLocationForCode(null);
@@ -226,7 +228,8 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 		assertNotNull(expectedLocation);
 		// intentionally put mock module as value with mockModuleId key to the map of started within system modules
 		ModuleFactory.getStartedModulesMap().put(mockModuleId, new Module("Test module", mockModuleId, "", "", "", ""));
-		MessagesLocation messagesLocation = customMessageService.resolveLocationForCode(String.format("%s.code", mockModuleId));
+		MessagesLocation messagesLocation = customMessageService.resolveLocationForCode(String.format("%s.code",
+		    mockModuleId));
 		// assert that module id can be properly resolved from the code
 		assertNotNull(messagesLocation);
 		assertSame(expectedLocation, messagesLocation);
@@ -246,7 +249,8 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 		assertNull(location);
 		// intentionally put mock module as value with mockModuleId key to the map of started within system modules
 		ModuleFactory.getStartedModulesMap().put(mockModuleId, new Module("Test module", mockModuleId, "", "", "", ""));
-		MessagesLocation messagesLocation = customMessageService.resolveLocationForCode(String.format("%s.code", mockModuleId));
+		MessagesLocation messagesLocation = customMessageService.resolveLocationForCode(String.format("%s.code",
+		    mockModuleId));
 		// assert that module id can be properly resolved from the code
 		assertNotNull(messagesLocation);
 		assertSame(mockModuleId, messagesLocation.getLocationId());
@@ -259,7 +263,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return messages location by id", method = "getMessagesLocation(String)")
-	public void getMessagesLocation_shouldReturnMessagesLocationById() {	
+	public void getMessagesLocation_shouldReturnMessagesLocationById() {
 		MessagesLocation messagesLocation = customMessageService.getMessagesLocation("test");
 		assertNotNull(messagesLocation);
 	}
@@ -269,7 +273,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return null if there is no object with given id", method = "getMessagesLocation(String)")
-	public void getMessagesLocation_shouldReturnNullIfThereIsNoObjectWithGivenId() {	
+	public void getMessagesLocation_shouldReturnNullIfThereIsNoObjectWithGivenId() {
 		assertNull(customMessageService.getMessagesLocation("wrongId"));
 	}
 	
@@ -278,7 +282,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return null if no object found with given uuid", method = "getMessagesLocationByUuid(String)")
-	public void getMessagesLocationByUuid_shouldReturnNullIfNoObjectFoundWithGivenUuid() {	
+	public void getMessagesLocationByUuid_shouldReturnNullIfNoObjectFoundWithGivenUuid() {
 		assertNull(customMessageService.getMessagesLocationByUuid("invalid uuid"));
 	}
 	
@@ -287,7 +291,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should return messages location by uuid", method = "getMessagesLocationByUuid(String)")
-	public void getMessagesLocationByUuid_shouldReturnMessagesLocationByUuid() {	
+	public void getMessagesLocationByUuid_shouldReturnMessagesLocationByUuid() {
 		assertNotNull(customMessageService.getMessagesLocationByUuid("b2e65607-d0c4-4e44-8be6-31e1ac7e199d"));
 	}
 	
@@ -296,7 +300,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should get all messages locations", method = "getAllMessagesLocations()")
-	public void getAllMessagesLocations_shouldGetAllMessagesLocations() {	
+	public void getAllMessagesLocations_shouldGetAllMessagesLocations() {
 		List<MessagesLocation> actual = customMessageService.getAllMessagesLocations();
 		assertNotNull(actual);
 		assertEquals(2, actual.size());
@@ -307,7 +311,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should create a new messages location in database", method = "saveMessagesLocation(MessagesLocation)")
-	public void saveMessagesLocation_shouldCreateNewMessagesLocationInDatabase() {	
+	public void saveMessagesLocation_shouldCreateNewMessagesLocationInDatabase() {
 		int beforeSize = customMessageService.getAllMessagesLocations().size();
 		MessagesLocation messagesLocation = new MessagesLocation();
 		messagesLocation.setLocationId("just another test");
@@ -321,7 +325,7 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should update existing messages location in database", method = "saveMessagesLocation(MessagesLocation)")
-	public void saveMessagesLocation_shouldUpdateExistingMessagesLocationInDatabase() {	
+	public void saveMessagesLocation_shouldUpdateExistingMessagesLocationInDatabase() {
 		MessagesLocation messagesLocation = customMessageService.getMessagesLocation("test");
 		String beforeName = messagesLocation.getName();
 		String actualName = "test message";
@@ -338,14 +342,13 @@ public class CustomMessageServiceTest extends BaseModuleContextSensitiveTest {
 	 */
 	@Test
 	@Verifies(value = "should delete messages location", method = "deleteMessagesLocation(MessagesLocation)")
-	public void deleteMessagesLocation_shouldDeleteMessagesLocation() {	
+	public void deleteMessagesLocation_shouldDeleteMessagesLocation() {
 		int beforeSize = customMessageService.getAllMessagesLocations().size();
 		MessagesLocation messagesLocation = customMessageService.getMessagesLocation("test");
 		assertNotNull(messagesLocation);
 		customMessageService.deleteMessagesLocation(messagesLocation);
 		assertEquals(beforeSize - 1, customMessageService.getAllMessagesLocations().size());
 	}
-	
 	
 	/**
 	 * @see CustomMessageService#getAvailableMessagesLocationsMap()

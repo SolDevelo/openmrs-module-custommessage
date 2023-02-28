@@ -30,16 +30,17 @@ import org.openmrs.module.custommessage.MessagesLocation;
 public class HibernateCustomMessageDAO implements CustomMessageDAO {
 	
 	protected final Log log = LogFactory.getLog(getClass());
-    private SessionFactory sessionFactory;
-
+	
+	private SessionFactory sessionFactory;
+	
 	/**
 	 * @see CustomMessageDAO#getCustomMessage(Integer)
 	 */
 	@Override
 	public CustomMessage getCustomMessage(Integer id) {
-		return (CustomMessage)sessionFactory.getCurrentSession().get(CustomMessage.class, id);
+		return (CustomMessage) sessionFactory.getCurrentSession().get(CustomMessage.class, id);
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.custommessage.service.db.CustomMessageDAO#getCustomMessageByUuid(java.lang.String)
 	 */
@@ -47,9 +48,9 @@ public class HibernateCustomMessageDAO implements CustomMessageDAO {
 	public CustomMessage getCustomMessageByUuid(String uuid) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(CustomMessage.class);
 		criteria.add(Restrictions.eq("uuid", uuid));
-		return (CustomMessage)criteria.uniqueResult();
+		return (CustomMessage) criteria.uniqueResult();
 	}
-
+	
 	/**
 	 * @see CustomMessageDAO#getAllCustomMessages()
 	 */
@@ -70,7 +71,6 @@ public class HibernateCustomMessageDAO implements CustomMessageDAO {
 	}
 	
 	/**
-	 * 
 	 * @see CustomMessageDAO#saveCustomMessage(CustomMessage)
 	 */
 	public void saveCustomMessage(CustomMessage customMessage) {
@@ -83,20 +83,21 @@ public class HibernateCustomMessageDAO implements CustomMessageDAO {
 	public void deleteCustomMessage(CustomMessage customMessage) {
 		sessionFactory.getCurrentSession().delete(customMessage);
 	}
-    
+	
 	/**
 	 * @param sessionFactory
 	 */
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    /**
-     * @see org.openmrs.module.custommessage.service.db.CustomMessageDAO#getCustomMessagesForCode(java.lang.String, java.util.Locale)
-     */
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
+	/**
+	 * @see org.openmrs.module.custommessage.service.db.CustomMessageDAO#getCustomMessagesForCode(java.lang.String,
+	 *      java.util.Locale)
+	 */
 	@SuppressWarnings("unchecked")
-    @Override
-    public CustomMessage getCustomMessagesForCode(String code, Locale locale) {
+	@Override
+	public CustomMessage getCustomMessagesForCode(String code, Locale locale) {
 		CustomMessage customMessage = null;
 		// build criteria for fetching custom messages with
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(CustomMessage.class);
@@ -108,50 +109,50 @@ public class HibernateCustomMessageDAO implements CustomMessageDAO {
 		if (result != null && !result.isEmpty()) {
 			customMessage = result.get(0);
 		}
-	    return customMessage;
-    }
-
+		return customMessage;
+	}
+	
 	/**
 	 * @see org.openmrs.module.custommessage.service.db.CustomMessageDAO#getMessagesLocation(java.lang.String)
 	 */
 	@Override
-    public MessagesLocation getMessagesLocation(String locationId) {
-		return (MessagesLocation)sessionFactory.getCurrentSession().get(MessagesLocation.class, locationId);
-    }
-
+	public MessagesLocation getMessagesLocation(String locationId) {
+		return (MessagesLocation) sessionFactory.getCurrentSession().get(MessagesLocation.class, locationId);
+	}
+	
 	/**
 	 * @see org.openmrs.module.custommessage.service.db.CustomMessageDAO#getMessagesLocationByUuid(java.lang.String)
 	 */
 	@Override
-    public MessagesLocation getMessagesLocationByUuid(String uuid) {
+	public MessagesLocation getMessagesLocationByUuid(String uuid) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MessagesLocation.class);
 		criteria.add(Restrictions.eq("uuid", uuid));
-		return (MessagesLocation)criteria.uniqueResult();
-    }
-
+		return (MessagesLocation) criteria.uniqueResult();
+	}
+	
 	/**
 	 * @see org.openmrs.module.custommessage.service.db.CustomMessageDAO#getAllMessagesLocations()
 	 */
 	@SuppressWarnings("unchecked")
-    @Override
-    public List<MessagesLocation> getAllMessagesLocations() {
+	@Override
+	public List<MessagesLocation> getAllMessagesLocations() {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(MessagesLocation.class);
 		return criteria.list();
-    }
-
+	}
+	
 	/**
 	 * @see org.openmrs.module.custommessage.service.db.CustomMessageDAO#saveMessagesLocation(org.openmrs.module.custommessage.MessagesLocation)
 	 */
 	@Override
-    public void saveMessagesLocation(MessagesLocation messagesLocation) {
+	public void saveMessagesLocation(MessagesLocation messagesLocation) {
 		sessionFactory.getCurrentSession().saveOrUpdate(messagesLocation);
-    }
-
+	}
+	
 	/**
 	 * @see org.openmrs.module.custommessage.service.db.CustomMessageDAO#deleteMessagesLocation(org.openmrs.module.custommessage.MessagesLocation)
 	 */
 	@Override
-    public void deleteMessagesLocation(MessagesLocation messagesLocation) {
+	public void deleteMessagesLocation(MessagesLocation messagesLocation) {
 		sessionFactory.getCurrentSession().delete(messagesLocation);
-    }
+	}
 }

@@ -46,17 +46,23 @@ import org.springframework.context.support.AbstractMessageSource;
 public class CustomMessageSource extends AbstractMessageSource implements MutableMessageSource, ApplicationContextAware, GlobalPropertyListener {
 	
 	protected static final Log log = LogFactory.getLog(CustomMessageSource.class);
+	
 	private Map<Locale, PresentationMessageMap> cache = null;
+	
 	private boolean showMessageCode = false;
 	
 	public static final String GLOBAL_PROPERTY_SHOW_MESSAGE_CODES = "custommessage.showMessageCodes";
+	
+	public CustomMessageSource() {
+		setUseCodeAsDefaultMessage(true);
+	}
 	
 	/**
 	 * @see ApplicationContextAware#setApplicationContext(ApplicationContext)
 	 */
 	@Override
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
-		MessageSourceService svc = (MessageSourceService)context.getBean("messageSourceServiceTarget");
+		MessageSourceService svc = (MessageSourceService) context.getBean("messageSourceServiceTarget");
 		MessageSource activeSource = svc.getActiveMessageSource();
 		setParentMessageSource(activeSource);
 		svc.setActiveMessageSource(this);
@@ -131,9 +137,10 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 	 * Updates the showMessageCode variable based on the global property configuration
 	 */
 	public void updateShowMessageCode() {
-		showMessageCode = "true".equals(Context.getAdministrationService().getGlobalProperty(GLOBAL_PROPERTY_SHOW_MESSAGE_CODES, "false"));
+		showMessageCode = "true".equals(Context.getAdministrationService().getGlobalProperty(
+		    GLOBAL_PROPERTY_SHOW_MESSAGE_CODES, "false"));
 	}
-
+	
 	/**
 	 * @see MutableMessageSource#getLocales()
 	 */
@@ -144,16 +151,7 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 		s.addAll(cache.keySet());
 		return s;
 	}
-
-	/**
-	 * @see MutableMessageSource#publishProperties(Properties, String, String, String, String)
-	 */
-	@SuppressWarnings("deprecation")
-	@Override
-	public void publishProperties(Properties props, String locale, String namespace, String name, String version) {
-		getMutableParentSource().publishProperties(props, locale, namespace, name, version);
-	}
-
+	
 	/**
 	 * @see MutableMessageSource#getPresentations()
 	 */
@@ -165,7 +163,7 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 		}
 		return ret;
 	}
-
+	
 	/**
 	 * @see MutableMessageSource#getPresentationsInLocale(Locale)
 	 */
@@ -177,7 +175,7 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 		}
 		return pmm.values();
 	}
-
+	
 	/**
 	 * @see MutableMessageSource#addPresentation(PresentationMessage)
 	 */
@@ -185,7 +183,7 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 	public void addPresentation(PresentationMessage message) {
 		addPresentationMessageToCache(message, true);
 	}
-
+	
 	/**
 	 * @see MutableMessageSource#getPresentation(String, Locale)
 	 */
@@ -197,7 +195,7 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 		}
 		return pmm.get(code);
 	}
-
+	
 	/**
 	 * @see MutableMessageSource#removePresentation(PresentationMessage)
 	 */
@@ -209,7 +207,7 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 		}
 		getMutableParentSource().removePresentation(message);
 	}
-
+	
 	/**
 	 * @see MutableMessageSource#merge(MutableMessageSource, boolean)
 	 */
@@ -217,7 +215,7 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 	public void merge(MutableMessageSource fromSource, boolean overwrite) {
 		getMutableParentSource().merge(fromSource, overwrite);
 	}
-
+	
 	/**
 	 * @see AbstractMessageSource#resolveCode(String, Locale)
 	 */
@@ -240,9 +238,11 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 		}
 		return null;
 	}
-
+	
 	/**
-	 * For some reason, this is needed to get the default text option in message tags working properly
+	 * For some reason, this is needed to get the default text option in message tags working
+	 * properly
+	 * 
 	 * @see AbstractMessageSource#getMessageInternal(String, Object[], Locale)
 	 */
 	@Override
@@ -253,13 +253,13 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 		}
 		return s;
 	}
-
+	
 	/**
 	 * @see GlobalPropertyListener#supportsPropertyName(String)
 	 */
-    public boolean supportsPropertyName(String property) {   	
-	    return property != null && property.equals(CustomMessageSource.GLOBAL_PROPERTY_SHOW_MESSAGE_CODES);
-    }
+	public boolean supportsPropertyName(String property) {
+		return property != null && property.equals(CustomMessageSource.GLOBAL_PROPERTY_SHOW_MESSAGE_CODES);
+	}
 	
 	/**
 	 * @see GlobalPropertyListener#globalPropertyChanged(GlobalProperty)
@@ -270,15 +270,15 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 				updateShowMessageCode();
 			}
 		}
-	    
-    }
-
+		
+	}
+	
 	/**
 	 * @see GlobalPropertyListener#globalPropertyDeleted(String)
 	 */
-    public void globalPropertyDeleted(String property) {
-    	// Do nothing
-    }
+	public void globalPropertyDeleted(String property) {
+		// Do nothing
+	}
 	
 	/**
 	 * Convenience method to get the parent message source as a MutableMessageSource

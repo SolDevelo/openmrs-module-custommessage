@@ -98,8 +98,8 @@ public class InMemoryZipStream {
 	public void close() throws IOException {
 		zos.flush();
 		bos.flush();
-        zos.close();
-        bos.close();
+		zos.close();
+		bos.close();
 	}
 	
 	/**

@@ -7,7 +7,12 @@
 	<author>Partners In Health</author>
 	<description>Supports user-defined, live translations of OpenMRS</description>
 	<activator>@MODULE_PACKAGE@.ModuleActivator</activator>
-	<require_version>1.6</require_version>	
+	<require_version>1.6,2.3</require_version>
+	<require_modules>
+		<require_module version="${legacyUiVersion}">
+			org.openmrs.module.legacyui
+		</require_module>
+	</require_modules>
 
 	<globalProperty>
 		<property>@MODULE_ID@.showMessageCodes</property>

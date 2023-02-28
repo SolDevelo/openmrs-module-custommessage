@@ -20,15 +20,14 @@ import org.openmrs.web.taglib.behavior.TagMessageWriterBehavior;
 /**
  * Basic implementation of {@link TagMessageWriterBehavior} interface that encloses all rendered
  * messages with &lt;span class="translate"&gt; and &lt;/span&gt; tags, in case if user property
- * specified by name {@link CustomMessageConstants#USER_PROPERTY_TRANSLATE_MODE_ENABLED} set to true, so produced
- * message becomes available for in-place edit
+ * specified by name {@link CustomMessageConstants#USER_PROPERTY_TRANSLATE_MODE_ENABLED} set to
+ * true, so produced message becomes available for in-place edit
  */
 public class CustomTagMessageWriterBehavior implements TagMessageWriterBehavior {
 	
 	/**
 	 * @see org.openmrs.web.taglib.behavior.TagMessageWriterBehavior#renderMessage(java.lang.String,
 	 *      java.lang.String, java.lang.String, java.lang.String)
-	 *      
 	 * @should not enclose text if in-place customization disabled
 	 * @should not enclose text if there is no authenticated user
 	 * @should not enclose text if translate mode is disabled

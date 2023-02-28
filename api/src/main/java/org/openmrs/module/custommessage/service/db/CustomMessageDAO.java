@@ -85,4 +85,3 @@ public interface CustomMessageDAO {
 	 */
 	public void deleteMessagesLocation(MessagesLocation messagesLocation);
 }
-

@@ -14,7 +14,8 @@
 package org.openmrs.module.custommessage;
 
 /**
- * Within this class we keep module common constants: user/global property names, privilege names, urls etc.
+ * Within this class we keep module common constants: user/global property names, privilege names,
+ * urls etc.
  */
 public class CustomMessageConstants {
 	

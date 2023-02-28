@@ -20,8 +20,8 @@ import org.openmrs.module.Extension;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
 
 /**
- * This class defines the links that will appear on the administration page
- * This extension is enabled by defining it in the /metadata/config.xml file. 
+ * This class defines the links that will appear on the administration page This extension is
+ * enabled by defining it in the /metadata/config.xml file.
  */
 public class AdministrationPageExtension extends AdministrationSectionExt {
 	

@@ -150,7 +150,8 @@ public class CustomMessageController {
 	@RequestMapping(method = RequestMethod.POST, value = "/module/custommessage/export.form")
 	public void exportMessageSubmit(HttpServletResponse response, @RequestParam("locale") String[] locales,
 	        @RequestParam("location") String[] locationIds,
-	        @RequestParam(value="onlyExportCustomizedMessages", required=false) Boolean onlyExportCustomizedMessages) throws Exception {
+	        @RequestParam(value = "onlyExportCustomizedMessages", required = false) Boolean onlyExportCustomizedMessages)
+	        throws Exception {
 		// decide if it is need to export only custom messages or all messages available for given locale and location
 		if (onlyExportCustomizedMessages != null) {
 			// if single file export is possible, then export customized messages into file and send it back via response output stream
@@ -199,7 +200,8 @@ public class CustomMessageController {
 					if (!availableLocations.containsKey(prefix)) {
 						PresentationMessage pm = messageMap.get(code);
 						if (pm != null && StringUtils.isNotBlank(pm.getMessage())) {
-							response.getWriter().write(code + " = " + pm.getMessage() + System.getProperty("line.separator"));
+							response.getWriter()
+							        .write(code + " = " + pm.getMessage() + System.getProperty("line.separator"));
 						}
 					}
 				} else {
@@ -273,13 +275,15 @@ public class CustomMessageController {
 				MessagesByLanguage messagesByLanguage = new MessagesByLanguage(locales[j]);
 				CustomMessageSource cms = (CustomMessageSource) Context.getMessageSourceService().getActiveMessageSource();
 				cms.refreshCache();
-				PresentationMessageMap cacheMessages = cms.getCachedMessages().get(LocaleUtility.fromSpecification(messagesByLanguage.getLanguage()));
+				PresentationMessageMap cacheMessages = cms.getCachedMessages().get(
+				    LocaleUtility.fromSpecification(messagesByLanguage.getLanguage()));
 				if (cacheMessages != null) {
 					Map<String, PresentationMessage> messageMap = new TreeMap<String, PresentationMessage>(cacheMessages);
 					for (String code : messageMap.keySet()) {
 						String prefix = StringUtils.substringBefore(code, ".");
 						// when passed in location is core
-						if (StringUtils.equals(locationEntry.getCode(), CustomMessageConstants.CUSTOM_MESSAGES_LOCATION_DEFAULT_ID)) {
+						if (StringUtils.equals(locationEntry.getCode(),
+						    CustomMessageConstants.CUSTOM_MESSAGES_LOCATION_DEFAULT_ID)) {
 							// if message code prefix is not listed as key of available messages 
 							// locations this means that this message is related to core location
 							if (!availableLocations.containsKey(prefix)) {
@@ -326,7 +330,7 @@ public class CustomMessageController {
 		List<LocationEntry> model = new ArrayList<CustomMessageController.LocationEntry>(locationIds.length);
 		for (int i = 0; i < locationIds.length; i++) {
 			MessagesLocation messagesLocation = Context.getService(CustomMessageService.class).getMessagesLocation(
-				locationIds[i]);
+			    locationIds[i]);
 			if (messagesLocation != null) {
 				LocationEntry locationEntry = new LocationEntry(locationIds[i]);
 				// create list of messages by locale for current location
@@ -334,7 +338,7 @@ public class CustomMessageController {
 				for (int j = 0; j < locales.length; j++) {
 					MessagesByLanguage messagesByLanguage = new MessagesByLanguage(locales[j]);
 					Collection<CustomMessage> customMessages = messagesLocation.getCustomMessages(LocaleUtility
-				        .fromSpecification(messagesByLanguage.getLanguage()));
+					        .fromSpecification(messagesByLanguage.getLanguage()));
 					for (CustomMessage customMessage : customMessages) {
 						if (StringUtils.isNotBlank(customMessage.getMessage())) {
 							messagesByLanguage.getKeyValuePairs().put(customMessage.getCode(), customMessage.getMessage());
@@ -411,11 +415,12 @@ public class CustomMessageController {
 		
 		/**
 		 * Creates new location entry using given fields
+		 * 
 		 * @param code the string to be used as code of new location entry
 		 */
-        public LocationEntry(String code) {
-	        this.code = code;
-        }
+		public LocationEntry(String code) {
+			this.code = code;
+		}
 		
 		/**
 		 * @return the code
@@ -463,11 +468,12 @@ public class CustomMessageController {
 		
 		/**
 		 * Creates new instance of this class with given language
+		 * 
 		 * @param language the language to be used as value for corresponding class field
 		 */
-        public MessagesByLanguage(String language) {
-        	this.language = language;
-        }
+		public MessagesByLanguage(String language) {
+			this.language = language;
+		}
 		
 		/**
 		 * @return the language

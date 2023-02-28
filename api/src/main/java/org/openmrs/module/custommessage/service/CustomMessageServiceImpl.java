@@ -217,7 +217,8 @@ public class CustomMessageServiceImpl extends BaseOpenmrsService implements Cust
 			}
 		}
 		// return default location meaning that it's core message as no matching module id is found
-		messageLocation = customMessageService.getMessagesLocation(CustomMessageConstants.CUSTOM_MESSAGES_LOCATION_DEFAULT_ID);
+		messageLocation = customMessageService
+		        .getMessagesLocation(CustomMessageConstants.CUSTOM_MESSAGES_LOCATION_DEFAULT_ID);
 		if (messageLocation == null) {
 			// if core location does not exist yet, create in and save into database
 			messageLocation = new MessagesLocation(CustomMessageConstants.CUSTOM_MESSAGES_LOCATION_DEFAULT_ID,
@@ -226,7 +227,7 @@ public class CustomMessageServiceImpl extends BaseOpenmrsService implements Cust
 		}
 		return messageLocation;
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.custommessage.service.CustomMessageService#getAvailableMessagesLocationsMap()
 	 */

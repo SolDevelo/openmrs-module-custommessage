@@ -1,24 +1,23 @@
-<%@ include file="/WEB-INF/template/include.jsp" %>
-<openmrs:extensionPoint pointId="org.openmrs.admin.list" type="html">
-	<openmrs:hasPrivilege privilege="${extension.requiredPrivilege}">
-		<c:if test="${extension.class.name == 'org.openmrs.module.custommessage.extension.AdministrationPageExtension'}">
-			<ul id="menu">
-				<c:forEach items="${extension.links}" var="link" varStatus="status">
-					<c:set var="linkSelected" value="${fn:contains(pageContext.request.requestURI, fn:substringBefore(link.key, '.'))}"/>
-					<li class="<c:if test="${status.index == 0}">first</c:if> <c:if test="${linkSelected}">active</c:if>">
-						<c:choose>
-							<c:when test="${fn:startsWith(link.key, 'module/')}">
-								<%-- Added for backwards compatibility for most links --%>
-								<a href="${pageContext.request.contextPath}/${link.key}"><spring:message code="${link.value}"/></a>
-							</c:when>
-							<c:otherwise>
-								<%-- Allows for external absolute links  --%>
-								<a href='<c:url value="${link.key}"/>'><spring:message code='${link.value}'/></a>
-							</c:otherwise>
-						</c:choose>
-					</li>
-				</c:forEach>
-			</ul>
-		</c:if>
+<ul id="menu">
+	<li class="first">
+		<a href="${pageContext.request.contextPath}/admin/index.htm"><openmrs:message code="admin.title.short"/></a>
+	</li>
+
+	<openmrs:hasPrivilege privilege="Manage Custom Messages">
+		<li id="custommessage-manageMessages"
+			<c:if test='<%= request.getRequestURI().contains("index") %>'>class="active"</c:if>>
+			<a href="${pageContext.request.contextPath}/module/custommessage/index.form">
+				<openmrs:message code="custommessage.manageMessages"/>
+			</a>
+		</li>
 	</openmrs:hasPrivilege>
-</openmrs:extensionPoint>
+
+	<openmrs:hasPrivilege privilege="Manage Custom Messages">
+		<li id="custommessage-exportMessages"
+			<c:if test='<%= request.getRequestURI().contains("export") %>'>class="active"</c:if>>
+			<a href="${pageContext.request.contextPath}/module/custommessage/export.form">
+				<openmrs:message code="custommessage.exportMessages"/>
+			</a>
+		</li>
+	</openmrs:hasPrivilege>
+</ul>

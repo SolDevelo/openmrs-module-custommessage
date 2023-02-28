@@ -152,9 +152,9 @@ public interface CustomMessageService extends OpenmrsService {
 	public MessagesLocation resolveLocationForCode(String messageCode);
 	
 	/**
-	 * Gets the map of available messages locations. Messages location id is used as key, and location
-	 * name - as value. Final map will be created as result of merging of messages locations from
-	 * database and modules, started in system
+	 * Gets the map of available messages locations. Messages location id is used as key, and
+	 * location name - as value. Final map will be created as result of merging of messages
+	 * locations from database and modules, started in system
 	 * 
 	 * @return map of messages locations available in system
 	 * @should return map as result of merge of messages locations and started modules

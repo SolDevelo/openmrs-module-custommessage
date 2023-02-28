@@ -15,49 +15,51 @@ package org.openmrs.module.custommessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.module.Activator;
+import org.openmrs.module.BaseModuleActivator;
 import org.openmrs.module.ModuleException;
 import org.openmrs.web.taglib.OpenmrsMessageTag;
 
 /**
- * This class contains the logic that is run every time this module
- * is either started or shutdown
+ * This class contains the logic that is run every time this module is either started or shutdown
  */
-public class ModuleActivator implements Activator {
-
+// TODO: This is compatible with 2.0 and later
+public class ModuleActivator extends BaseModuleActivator {
+	
 	private static final Log LOG = LogFactory.getLog(ModuleActivator.class);
-
+	
 	/**
 	 * @see org.openmrs.module.Activator#startup()
 	 */
 	@Override
-	public void startup() {
+	public void started() {
 		
 		// try to define if there is a support for openmrs:message
 		// by instantiating org.openmrs.web.taglib.OpenmrsMessageTag
 		try {
 			Class.forName("org.openmrs.web.taglib.OpenmrsMessageTag");
-		} catch(ClassNotFoundException e) {
-			LOG.error("Unable to start module because openmrs:message tag is not supported by the system");
-			throw new ModuleException("Unable to start module because openmrs:message tag is not supported by this version of system");
 		}
-
+		catch (ClassNotFoundException e) {
+			LOG.error("Unable to start module because openmrs:message tag is not supported by the system");
+			throw new ModuleException(
+			        "Unable to start module because openmrs:message tag is not supported by this version of system");
+		}
+		
 		// customize tag writer behavior for openmrs:message tag if openmrs
 		// messaging support is provided via used version of OpenMRS framework
 		OpenmrsMessageTag.setTagWriterBehavior(new CustomTagMessageWriterBehavior());
-
+		
 		LOG.info("Started custommessage module");
 	}
-
+	
 	/**
 	 * @see org.openmrs.module.Activator#shutdown()
 	 */
 	@Override
-	public void shutdown() {
-
+	public void stopped() {
+		
 		// reset openmrs:message tag writer behavior when module is stopped
 		OpenmrsMessageTag.setTagWriterBehavior(OpenmrsMessageTag.DEFAULT_WRITER_BEHAVIOUR);
-
+		
 		LOG.info("Shut down custommessage module");
-	}	
+	}
 }
