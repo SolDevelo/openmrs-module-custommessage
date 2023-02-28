@@ -13,17 +13,6 @@
  */
 package org.openmrs.module.custommessage;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.GlobalProperty;
@@ -39,6 +28,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.AbstractMessageSource;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Registers the custom message source service
@@ -222,7 +221,12 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 	@Override
 	protected MessageFormat resolveCode(String code, Locale locale) {
 		if (showMessageCode) {
-			return new MessageFormat(code);
+			try {
+				return new MessageFormat(code);
+			}
+			catch (Exception e) {
+				logger.error("Failed to read translation code: " + code, e);
+			}
 		}
 		PresentationMessage pm = getPresentation(code, locale); // Check exact match
 		if (pm == null) {
@@ -234,7 +238,13 @@ public class CustomMessageSource extends AbstractMessageSource implements Mutabl
 			}
 		}
 		if (pm != null) {
-			return new MessageFormat(pm.getMessage());
+			try {
+				return new MessageFormat(pm.getMessage());
+			}
+			catch (IllegalArgumentException iae) {
+				logger.warn("Ignoring placeholders in translation text: pm.getMessage()", iae);
+				return new MessageFormat(pm.getMessage().replace("'", "''").replace("{", "'{'").replace("}", "'}'"));
+			}
 		}
 		return null;
 	}
